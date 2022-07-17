@@ -124,19 +124,19 @@ async fn iter_path(path: PathBuf) -> Result<()> {
         Ok(dir) => dir,
         Err(_) => return Ok(()),
     };
-    let mut joins=vec![];
-    for p in dirs.into_iter(){
-        if let Ok(p)=p {
-            if let Ok(f_type)= p.file_type(){
-                if f_type.is_dir() && !f_type.is_symlink(){
+    let mut joins = vec![];
+    for p in dirs {
+        if let Ok(p) = p {
+            if let Ok(f_type) = p.file_type() {
+                if f_type.is_dir() && !f_type.is_symlink() {
                     joins.push(tokio::spawn(iter_path(p.path())));
                 }
             }
-        }else{
+        } else {
             break;
         }
     }
-    for join in joins{
+    for join in joins {
         join.await??;
     }
     Ok(())
