@@ -64,8 +64,8 @@ async fn main() -> Result<()> {
         .await;
     tokio::spawn(iter_path(scan_root)).await??;
     store.display().await?;
-    if args.dry_run {
-        println!("Dry run. Not doing any cleanup");
+    if args.dry_run || !store.has_project() {
+        println!("Dry run or not found project. Not doing any cleanup");
         return Ok(());
     }
     // Confirm cleanup if --yes is not present in the args
@@ -258,6 +258,8 @@ trait IPathInfoStore {
     async fn display(&self) -> Result<()>;
     /// clean all target
     async fn clean(&self) -> Result<()>;
+    /// has project
+    fn has_project(&self) -> bool;
 }
 
 #[async_trait::async_trait]
@@ -279,5 +281,9 @@ impl IPathInfoStore for Actor<PathInfoStore> {
     async fn clean(&self) -> Result<()> {
         self.inner_call(|inner| async move { inner.get().clean() })
             .await
+    }
+
+    fn has_project(&self) -> bool {
+        unsafe { !self.deref_inner().projects.is_empty() }
     }
 }
