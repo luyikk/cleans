@@ -8,7 +8,11 @@ use std::time::SystemTime;
 use tokio::sync::OnceCell;
 
 #[derive(Parser)]
-#[clap(version, bin_name = "cargo cleans",about = "Clean up all targets of the current path")]
+#[clap(
+    version,
+    bin_name = "cargo cleans",
+    about = "Clean up all targets of the current path"
+)]
 struct Arg {
     /// The directory that will be cleaned
     #[clap(short, long, default_value = ".", value_name = "DIR")]
@@ -48,7 +52,6 @@ async fn main() -> Result<()> {
     if let Some("cleans") = std::env::args().nth(1).as_deref() {
         args.next();
     }
-
     let args: Arg = Arg::parse_from(args);
     let scan_root = PathBuf::from(args.root_dir);
     anyhow::ensure!(

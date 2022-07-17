@@ -11,8 +11,8 @@ description = "A cargo subcommand cleans all projects under a specified director
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = {version="1",features=["full"]}
-clap = {version="3",features=["derive"]}
+tokio = { version="1" , features= ["full"] }
+clap = { version="3" , features= ["derive"] }
 bytefmt = "0.1"
 chrono ="0.4"
 remove_dir_all = "0.7"
