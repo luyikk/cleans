@@ -282,7 +282,6 @@ impl IPathInfoStore for Actor<PathInfoStore> {
         self.inner_call(|inner| async move { inner.get().clean() })
             .await
     }
-
     fn has_project(&self) -> bool {
         unsafe { !self.deref_inner().projects.is_empty() }
     }
