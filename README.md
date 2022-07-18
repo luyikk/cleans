@@ -30,10 +30,5 @@ Keep target directories younger than `[days]` days.
 cargo cleans --keep-days [days]
 ```
 
-Specify the number of threads to use for the recursive scan .
-```shell
-cargo cleans --threads [number of threads]
-```
-
 ## Compare with other
 Use with tokio+actor concurrent search,the performance is 3-5 times that of others.

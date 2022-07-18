@@ -104,7 +104,13 @@ async fn iter_path(path: PathBuf) -> Result<()> {
                 };
 
                 if cargo_path.exists() {
-                    let last_modified = path.metadata()?.modified()?;
+                    let last_modified ={
+                        if let Some(parent) = path.parent() {
+                            std::cmp::max(parent.metadata()?.modified()?, path.metadata()?.modified()?)
+                        }else{
+                            path.metadata()?.modified()?
+                        }
+                    };
                     let size = iter_file_size(path.clone()).await?;
                     return TARGET_PATH_STORE
                         .get()
